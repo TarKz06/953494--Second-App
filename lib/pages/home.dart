@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:secondapp/pages/details.dart';
 
@@ -14,32 +16,17 @@ class _HomePageState extends State<HomePage> {
         title: Text("Computer Knowledge"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ListView(
-          children: [
-            MyBox(
-                "What is Snow  ? ",
-                "Snow comprises individual ice crystals that grow while suspended in the atmosphere",
-                "https://cdn.pixabay.com/photo/2016/08/09/21/54/lake-1581879_960_720.jpg"),
-            SizedBox(
-              height: 20,
-            ),
-            MyBox(
-                "What is sea ?",
-                "The sea, connected as the world ocean or simply the ocean, is the body of salty water that covers approximately 71 percent of the Earth's surface.",
-                "https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989_960_720.jpg"),
-            SizedBox(
-              height: 20,
-            ),
-            MyBox(
-                "what is mountain",
-                "A mountain is an elevated portion of the Earth's crust, generally with steep sides that show significant exposed bedrock.",
-                "https://cdn.pixabay.com/photo/2021/11/27/12/16/mountain-6827881_960_720.jpg"),
-            SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
+          padding: const EdgeInsets.all(20),
+          child: FutureBuilder(
+            builder:(context,snapshot){
+              var data = json.decode(snapshot.data.toString());
+              return ListView.builder(itemBuilder: (BuildContext context, int index){
+                return MyBox(data[index]['title'],data[index]['subtitle'],data[index]['image']);
+              },
+              itemCount: data.length,);
+            },
+            future: DefaultAssetBundle.of(context).loadString('assets/data.json'),
+          ) 
       ),
     );
   }
