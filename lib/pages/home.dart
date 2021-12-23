@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
             builder:(context,snapshot){
               var data = json.decode(snapshot.data.toString());
               return ListView.builder(itemBuilder: (BuildContext context, int index){
-                return MyBox(data[index]['title'],data[index]['subtitle'],data[index]['image']);
+                return MyBox(data[index]['title'],data[index]['subtitle'],data[index]['image'],data[index]['detail']);
               },
               itemCount: data.length,);
             },
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget MyBox(String title, String subtitle, String imageURL) {
+  Widget MyBox(String title, String subtitle, String imageURL , String detail) {
     return Container(
         padding: EdgeInsets.all(20),
         height: 150,
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   print("Next page >>");
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => DetailsPage()));
+                      MaterialPageRoute(builder: (context) => DetailsPage(title,subtitle,imageURL,detail)));
                 },
                 child: Text("read more"))
           ],
